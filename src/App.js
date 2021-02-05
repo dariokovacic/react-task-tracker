@@ -10,6 +10,8 @@ function App() {
   
   const [tasks, setTasks] = useState([]);
 
+  const dataUri = 'http://localhost:5000/tasks';
+
   useEffect(() => {
     const getTasks = async () => {
       const tasksFromServer = await fetchTasks();
@@ -20,21 +22,21 @@ function App() {
   }, []);
 
   const fetchTasks = async () => {
-    const res = await fetch('http://localhost:5000/tasks');
+    const res = await fetch(dataUri);
     const data = await res.json();
 
     return data;
   }
 
   const fetchTask = async (id) => {
-    const res = await fetch(`http://localhost:5000/tasks/${id}`);
+    const res = await fetch(`${dataUri}/${id}`);
     const data = await res.json();
 
     return data;
   }
   
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/tasks/${id}`, {
+    await fetch(`${dataUri}/${id}`, {
       method: 'DELETE'
     });
 
@@ -50,7 +52,7 @@ function App() {
       reminder: !taskToToggle.reminder
     }
 
-    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+    const res = await fetch(`${dataUri}/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type' : 'application/json'
@@ -76,7 +78,7 @@ function App() {
     // }
     // setTasks([newTask, ...tasks]);
 
-    const res = await fetch(`http://localhost:5000/tasks`, {
+    const res = await fetch(dataUri, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -86,7 +88,7 @@ function App() {
 
     const data = await res.json();
 
-    setTasks([...tasks, data]);
+    setTasks([data, ...tasks]);
   }
   
 
